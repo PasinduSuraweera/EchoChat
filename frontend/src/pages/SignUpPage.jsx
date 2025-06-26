@@ -41,7 +41,7 @@ const SignUpPage = () => {
           {/* LOGO */}
           <div className="mb-4 flex items-center justify-start gap-2">
             <MessagesSquare className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+            <span className="text-3xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
               EchoChat
             </span>
           </div>
@@ -151,7 +151,7 @@ const SignUpPage = () => {
           <div className="max-w-md p-8">
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
+              <img src="/i3.png" alt="Language connection illustration" className="w-full h-full" />
             </div>
 
             <div className="text-center space-y-3 mt-6">
