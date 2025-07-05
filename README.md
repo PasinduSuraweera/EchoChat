@@ -1,6 +1,9 @@
-# 🌐 EchoChat
+# 💬 EchoChat
 
 **EchoChat** is a sleek, real-time messaging app built with **MERN stack**, designed to bring people together across the globe. With an elegant **neumorphic UI**, seamless **realtime chat & video calls**, and multiple **themes** for any mood, EchoChat makes conversations feel alive — wherever you are.
+
+![EchoChat Preview](https://drive.google.com/uc?export=view&id=16jdsy1IelRRYnojXRTYLAXgbQVtrNvFM)
+
 
 ---
 
