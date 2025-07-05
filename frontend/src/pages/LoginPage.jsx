@@ -9,18 +9,6 @@ const LoginPage = () => {
     password: "",
   });
 
-  // This is how we did it at first, without using our custom hook
-  // const queryClient = useQueryClient();
-  // const {
-  //   mutate: loginMutation,
-  //   isPending,
-  //   error,
-  // } = useMutation({
-  //   mutationFn: login,
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-  // });
-
-  // This is how we did it using our custom hook - optimized version
   const { isPending, error, loginMutation } = useLogin();
 
   const handleLogin = (e) => {
@@ -29,105 +17,108 @@ const LoginPage = () => {
   };
 
   return (
-    <div
-      className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="lemonade"
-    >
-      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
-        {/* LOGIN FORM SECTION */}
-        <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
-          {/* LOGO */}
-          <div className="mb-4 flex items-center justify-start gap-2">
-            <MessagesSquare className="size-9 text-primary" />
-            <span className="text-3xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 dark:from-gray-900 dark:to-blue-900 flex items-center justify-center p-4 sm:p-6 md:p-8 transition-colors duration-500">
+      <div className="relative w-full max-w-4xl flex flex-col lg:flex-row rounded-3xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute w-80 h-80 bg-blue-300/30 dark:bg-blue-600/30 rounded-full -top-40 -left-40 blur-3xl animate-pulse"></div>
+          <div className="absolute w-80 h-80 bg-purple-300/30 dark:bg-purple-600/30 rounded-full -bottom-40 -right-40 blur-3xl animate-pulse delay-1000"></div>
+        </div>
+
+        {/* Login Form Section */}
+        <div className="relative w-full lg:w-1/2 p-6 sm:p-10 lg:p-12 flex flex-col justify-center z-10">
+          {/* Logo */}
+          <div className="flex items-center gap-3 mb-6">
+            <MessagesSquare className="w-10 h-10 text-blue-500 dark:text-blue-400" />
+            <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-400 tracking-tight">
               EchoChat
-            </span>
+            </h1>
           </div>
 
-          {/* ERROR MESSAGE DISPLAY */}
+          {/* Error Message Display */}
           {error && (
-            <div className="alert alert-error mb-4">
-              <span>{error.response.data.message}</span>
+            <div className="mb-6 p-4 bg-red-100/80 dark:bg-red-900/80 border border-red-300 dark:border-red-700 rounded-xl text-red-700 dark:text-red-300 text-sm transform transition-all duration-300 ease-in-out">
+              {error.response.data.message}
             </div>
           )}
 
           <div className="w-full">
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Welcome Back</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Sign in to dive back into your global conversations.
+                </p>
+              </div>
+
               <div className="space-y-4">
-                <div>
-                  <h2 className="text-xl font-semibold">Welcome Back</h2>
-                  <p className="text-sm opacity-70">
-                    Sign in to your account and keep the conversations going.
-                  </p>
+                <div className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="hello@example.com"
+                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all duration-300"
+                    value={loginData.email}
+                    onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                    required
+                  />
                 </div>
 
-                <div className="flex flex-col gap-3">
-                  <div className="form-control w-full space-y-2">
-                    <label className="label">
-                      <span className="label-text">Email</span>
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="hello@example.com"
-                      className="input input-bordered w-full"
-                      value={loginData.email}
-                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-control w-full space-y-2">
-                    <label className="label">
-                      <span className="label-text">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className="input input-bordered w-full"
-                      value={loginData.password}
-                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary w-full" disabled={isPending}>
-                    {isPending ? (
-                      <>
-                        <span className="loading loading-spinner loading-xs"></span>
-                        Signing in...
-                      </>
-                    ) : (
-                      "Sign In"
-                    )}
-                  </button>
-
-                  <div className="text-center mt-4">
-                    <p className="text-sm">
-                      Don't have an account?{" "}
-                      <Link to="/signup" className="text-primary hover:underline">
-                        Create one
-                      </Link>
-                    </p>
-                  </div>
+                <div className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all duration-300"
+                    value={loginData.password}
+                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                    required
+                  />
                 </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+                  disabled={isPending}
+                >
+                  {isPending && (
+                    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                  )}
+                  {isPending ? "Signing in..." : "Sign In"}
+                </button>
+
+                <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+                  Don't have an account?{" "}
+                  <Link to="/signup" className="text-blue-500 dark:text-blue-400 hover:underline">
+                    Create one
+                  </Link>
+                </p>
               </div>
             </form>
           </div>
         </div>
 
-        {/* IMAGE SECTION */}
-        <div className="hidden lg:flex w-full lg:w-1/1 bg-primary/10 items-center justify-center">
-          <div className="max-w-md p-8">
-            {/* Illustration */}
-            <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/i3.png" alt="Language connection illustration" className="w-full h-full" />
-            </div>
-
-            <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">Connect with anyone worldwide</h2>
-              <p className="opacity-70">
-                Slide into real-time convos. Echo is your backstage pass to global chats — live, casual, and always on.
-              </p>
+        {/* Right Section (Illustration) */}
+        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-100/50 to-purple-100/50 dark:from-blue-900/50 dark:to-purple-900/50 items-center justify-center p-12 z-10">
+          <div className="text-center space-y-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Connect with Anyone Worldwide</h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-sm">
+              Slide into real-time convos. Echo is your backstage pass to global chats — live, casual, and always on.
+            </p>
+            <div className="relative w-70 h-70 mx-auto">
+              <div className="absolute inset-0 bg-blue-500/20 dark:bg-blue-600/20 rounded-full blur-xl animate-pulse"></div>
+              <img
+                src="/i2.png"
+                alt="Language connection illustration"
+                className="relative w-full h-full object-contain transform transition-transform duration-500 hover:scale-105"
+              />
             </div>
           </div>
         </div>
@@ -135,4 +126,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;
