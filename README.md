@@ -72,7 +72,3 @@ EchoChat features a **neumorphic** design that’s soft on the eyes and smooth t
 - Group chats
 - Read receipts
 - End-to-end encryption
-
----
-
-Made by Pasindu Suraweera.
